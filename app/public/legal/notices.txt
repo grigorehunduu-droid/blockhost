@@ -1,0 +1,25 @@
+BlockHost licenses
+==================
+
+BlockHost itself: MIT License (see LICENSE.txt).
+
+Included with BlockHost
+- Node.js - MIT License, Copyright Node.js contributors.
+  Full text: runtime\node\LICENSE
+- Microsoft Edge WebView2 SDK (Microsoft.Web.WebView2.Core.dll,
+  Microsoft.Web.WebView2.WinForms.dll, WebView2Loader.dll) - Microsoft license.
+  Full text: WebView2-LICENSE.txt
+- Microsoft Edge WebView2 Evergreen Bootstrapper (inside the installer only,
+  used when the WebView2 runtime is missing) - Microsoft's WebView2
+  distribution terms.
+
+Downloaded on your PC only when you use them (not included)
+- Eclipse Temurin Java - GPLv2 with the Classpath Exception.
+- Minecraft server software from Mojang - Minecraft EULA
+  (https://aka.ms/MinecraftEULA), which you accept when creating a server.
+- Paper, Purpur, Fabric, Forge, NeoForge, and any mods or plugins you
+  install - each under its own license.
+- The playit.gg agent (only if you turn on internet sharing) - its own license.
+
+NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG
+OR MICROSOFT.

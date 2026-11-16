@@ -1,0 +1,12 @@
+# Never publish these: they hold servers, worlds, backups and (encrypted) API keys.
+data/
+build/
+test-out/
+runtime/
+*.log
+node_modules/
+dist/
+# local working notes and one-off patch scripts
+tools/patches/
+CHECKLIST.md
+FREE-FIXES.md

@@ -1,0 +1,100 @@
+[
+ {
+  "wait": 800,
+  "shot": "tour0"
+ },
+ {
+  "js": "startTour(1)",
+  "wait": 3300,
+  "shot": "tour1"
+ },
+ {
+  "js": "startTour(2)",
+  "wait": 3300,
+  "shot": "tour2"
+ },
+ {
+  "js": "startTour(3)",
+  "wait": 2200,
+  "shot": "tour3"
+ },
+ {
+  "js": "startTour(4)",
+  "wait": 3300,
+  "shot": "tour4"
+ },
+ {
+  "js": "startTour(5)",
+  "wait": 3300,
+  "shot": "tour5"
+ },
+ {
+  "js": "startTour(6)",
+  "wait": 3300,
+  "shot": "tour6"
+ },
+ {
+  "js": "document.getElementById('tour').remove();localStorage.setItem('tourDone','1');setTab('home')",
+  "wait": 1800,
+  "shot": "home"
+ },
+ {
+  "js": "setTab('players')",
+  "wait": 2200,
+  "shot": "tab-players"
+ },
+ {
+  "js": "setTab('map')",
+  "wait": 2200,
+  "shot": "tab-map"
+ },
+ {
+  "js": "setTab('mods')",
+  "wait": 2200,
+  "shot": "tab-mods"
+ },
+ {
+  "js": "setTab('backups')",
+  "wait": 2200,
+  "shot": "tab-backups"
+ },
+ {
+  "js": "setTab('settings')",
+  "wait": 2200,
+  "shot": "tab-settings"
+ },
+ {
+  "js": "setTab('console')",
+  "wait": 2200,
+  "shot": "tab-console"
+ },
+ {
+  "js": "setTab('chat')",
+  "wait": 2200,
+  "shot": "tab-chat"
+ },
+ {
+  "js": "setTab('files')",
+  "wait": 2200,
+  "shot": "tab-files"
+ },
+ {
+  "js": "setTab('ai')",
+  "wait": 2200,
+  "shot": "tab-ai"
+ },
+ {
+  "js": "fetch('/api/ai/settings',{method:'POST',headers:{'x-mcsm-token':TOKEN,'Content-Type':'application/json'},body:JSON.stringify({provider:'gemini',keyFor:'gemini',key:'AIzaFAKEKEY_for_ui_test_0123456789abcdef'})}).then(()=>refresh(true)).then(()=>setTab('ai'))",
+  "wait": 2500,
+  "shot": "ai-with-key"
+ },
+ {
+  "js": "fetch('/api/ai/settings',{method:'POST',headers:{'x-mcsm-token':TOKEN,'Content-Type':'application/json'},body:JSON.stringify({keyFor:'gemini',key:''})}).then(()=>refresh(true))",
+  "wait": 500
+ },
+ {
+  "js": "setTab('home');newServer()",
+  "wait": 2000,
+  "shot": "new-server"
+ }
+]

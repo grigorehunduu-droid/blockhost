@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="blockhost-token" content="__TOKEN__">
+<meta name="color-scheme" content="light dark">
+<title>BlockHost</title>
+<link rel="icon" href="icon.png" type="image/png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="tour.css">
+</head>
+<body>
+<div id="banner" hidden>Lost connection to BlockHost. Reconnecting…</div>
+<div id="app">
+  <aside id="side">
+    <div class="brand"><img src="icon.png" alt=""><span>BlockHost</span></div>
+    <div id="pickerwrap" style="position:relative"></div>
+    <nav id="nav"></nav>
+    <div class="side-foot">
+      <button class="nav" data-act="tour"><span id="i-help"></span><span>Tutorial</span></button>
+      <button class="nav" data-act="about"><span id="i-info"></span><span>About</span></button>
+      <button class="nav" data-act="quit"><span id="i-power"></span><span>Quit BlockHost</span></button>
+    </div>
+  </aside>
+  <main id="main">
+    <header id="head"></header>
+    <section id="view"></section>
+  </main>
+</div>
+<div id="sheet" hidden></div>
+<div id="toasts"></div>
+<script src="app.js"></script>
+<script src="tour.js"></script>
+<script src="share.js"></script>
+</body>
+</html>

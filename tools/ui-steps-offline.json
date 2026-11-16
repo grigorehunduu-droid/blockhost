@@ -1,0 +1,1 @@
+[{"wait":1800,"js":"document.getElementById('tour')&&document.getElementById('tour').remove();setTab('settings')"},{"wait":1200,"shot":"off-1"},{"js":"document.getElementById('p-offline').click()","wait":700,"shot":"off-2-confirm"},{"js":"document.getElementById('sh-ok').click()","wait":1600,"shot":"off-3-on"}]

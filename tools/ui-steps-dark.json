@@ -1,0 +1,1 @@
+[{"wait":1500,"js":"document.getElementById('tour')&&document.getElementById('tour').remove();setTab('home')"},{"wait":1200,"shot":"dark-home"},{"js":"setTab('players')","wait":1500,"shot":"dark-players"},{"js":"setTab('mods')","wait":2500,"shot":"dark-mods"},{"js":"startTour(2)","wait":3500,"shot":"dark-tour2"}]

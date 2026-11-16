@@ -1,0 +1,4 @@
+[{"wait":1500,"js":"localStorage.setItem('tourDone','1');document.getElementById('tour')&&document.getElementById('tour').remove();setTab('home')"},
+ {"wait":2000,"shot":"share-1-off"},
+ {"js":"document.querySelector('[data-act=sharelink]').click()","wait":2500,"shot":"share-2-link"},
+ {"js":"document.getElementById('share-card').innerText","log":true,"name":"card text"}]

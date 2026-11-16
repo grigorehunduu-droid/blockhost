@@ -1,0 +1,11 @@
+[
+ {"wait":1500,"js":"document.getElementById('tour')&&document.getElementById('tour').remove();localStorage.setItem('tourDone','1');setTab('home')"},
+ {"wait":2200,"shot":"home"},
+ {"js":"setTab('mods')","wait":3500,"shot":"addons"},
+ {"js":"setTab('map')","wait":2500},
+ {"js":"document.getElementById('m-in').click();document.getElementById('m-in').click()","wait":2500,"shot":"map"},
+ {"js":"setTab('players')","wait":1800,"shot":"players"},
+ {"js":"setTab('ai')","wait":1500,"shot":"ai"},
+ {"js":"setTab('home');newServer()","wait":2200,"shot":"new-server"},
+ {"js":"closeSheet();startTour(3)","wait":2300,"shot":"tutorial"}
+]

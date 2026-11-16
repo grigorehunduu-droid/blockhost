@@ -1,0 +1,5 @@
+[
+ {"wait":1500,"js":"document.getElementById('tour')&&document.getElementById('tour').remove();localStorage.setItem('tourDone','1');setTab('home')"},
+ {"wait":2200,"shot":"home-dark"},
+ {"js":"setTab('settings')","wait":1800,"shot":"settings-dark"}
+]

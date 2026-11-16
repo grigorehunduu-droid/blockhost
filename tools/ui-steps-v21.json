@@ -1,0 +1,5 @@
+[
+ {"wait":1500,"js":"({tour: !!document.getElementById('tour'), tourDone: localStorage.getItem('tourDone'), startTour: typeof startTour})","log":true,"name":"first-run tour"},
+ {"js":"document.getElementById('tour') && document.getElementById('tour').remove(); actions.about()","wait":1500,"shot":"v21-about"},
+ {"js":"document.querySelector('[data-act=legal][data-f=privacy]').click()","wait":1000,"shot":"v21-privacy"}
+]

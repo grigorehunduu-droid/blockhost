@@ -1,0 +1,49 @@
+BlockHost privacy
+=================
+
+BlockHost has no accounts, no ads and no telemetry. Nothing about you or your
+servers is sent to the people who make BlockHost.
+
+What stays on this PC
+- Your servers, worlds, backups, settings and logs live in the BlockHost
+  folder (the "data" subfolder).
+- AI and CurseForge keys are encrypted by Windows so only your Windows account
+  on this PC can read them, and each key is only ever sent to the service it
+  belongs to.
+- The BlockHost window only works on this PC (it listens on 127.0.0.1 and needs
+  a secret that changes every time BlockHost starts).
+
+Who BlockHost talks to, and why
+- Mojang (piston-meta.mojang.com, piston-data.mojang.com): the list of
+  Minecraft versions, the official server, and - only if you press the button
+  on the Map tab - the game textures.
+- PaperMC (fill.papermc.io), Purpur (api.purpurmc.org), Fabric
+  (meta.fabricmc.net), Forge (files.minecraftforge.net, maven.minecraftforge.net)
+  and NeoForge (maven.neoforged.net): the server software you choose.
+- Eclipse Adoptium (api.adoptium.net, github.com): the Java runtime.
+- nodejs.org: only if Node.js has to be downloaded (the installer includes it).
+- Modrinth (api.modrinth.com, cdn.modrinth.com): searching and installing mods
+  and plugins. "Check for updates" sends the checksums of your installed
+  add-ons so Modrinth can find newer versions.
+- CurseForge (api.curseforge.com, edge.forgecdn.net): only if you add a
+  CurseForge key and search there.
+- Your AI provider (Google Gemini, Anthropic Claude or OpenAI): only when you
+  ask a question or design a server. The message includes your server's type,
+  version, memory, add-on list and the last part of its log.
+- playit.gg (api.playit.gg, github.com): only if you turn on internet sharing.
+  BlockHost links your playit.gg account, downloads playit's official helper
+  from GitHub, and players' connections then pass through playit.gg's servers.
+  The link key is kept in data\playit\secret.txt on this PC.
+- GitHub (api.github.com): only if this copy of BlockHost is set up with a
+  GitHub project page, to check whether a newer version exists.
+
+Every request identifies itself as "BlockHost/<version>". Each of these
+services has its own privacy policy.
+
+Your players
+Minecraft servers you run can be reached by anyone you give the address to.
+Player names, chat and inventories are stored in your server's own files on
+this PC.
+
+NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG
+OR MICROSOFT.
