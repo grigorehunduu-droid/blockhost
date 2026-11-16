@@ -1,5 +1,5 @@
 [
- {"wait":1500,"js":"document.getElementById('tour')&&document.getElementById('tour').remove();localStorage.setItem('tourDone','1');setTab('home')"},
- {"wait":2200,"shot":"home-dark"},
+ {"wait":1500,"js":"document.getElementById('tour')&&document.getElementById('tour').remove();localStorage.setItem('tourDone','1');S.lan=['192.168.1.20'];S.cur=(S.servers.find(function(s){return s.type==='purpur'})||S.servers[0]).id;localStorage.setItem('cur',S.cur);drawChrome();setTab('home')"},
+ {"wait":2500,"shot":"home-dark"},
  {"js":"setTab('settings')","wait":1800,"shot":"settings-dark"}
 ]

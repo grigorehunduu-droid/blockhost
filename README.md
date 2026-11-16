@@ -17,10 +17,16 @@ Start and stop, add mods and plugins, invite friends, back up your world, see th
 - **Players** – admins, kicks, bans, whitelist, game modes, and a look inside anyone's inventory and ender chest.
 - **Live map** – a top-down map of your world with dots for online players, plus an optional BlueMap 3D view.
 - **Backups** – one click or on a schedule, checked after they are made, restored in one click.
+- **World tools** – test a seed on a hidden throwaway world and see what is near spawn, start a new world (the old one is kept), and pre-generate land with Chunky.
+- **Events and phone alerts** – run commands at a set time (drop parties, contests, reminders), and get a message on your phone through the free ntfy app when the server crashes or a friend joins.
+- **Ranks** – LuckPerms ranks and permissions with switches instead of commands.
+- **Problems in plain words** – Home lists trouble found in the log and how to fix it.
 - **Ask AI** – connect Gemini (free tier), Claude or ChatGPT to explain crashes, or describe a server ("a chill Fabric server for 4 friends") and let it pick the version and mods. Nothing runs or installs until you approve it.
-- **Everything else** – live log and console, chat, server settings in plain words, a file editor, performance charts, auto-restart after crashes, daily restarts with warnings, and a short animated tutorial.
+- **Everything else** – live log and console, chat, server settings in plain words, a file editor, performance charts, auto-restart after crashes, daily restarts with warnings, one-click voice chat setup, a tray icon that keeps running servers going, and a short animated tutorial.
+- **Liquid Glass look** – light and dark mode, glass that bends what is behind it, and calm animations (off when Windows "reduce motion" is on).
 
 <table>
+<tr><td><img src="docs/screenshots/world.png" alt="World: seed test"></td><td><img src="docs/screenshots/events.png" alt="Events and phone alerts"></td></tr>
 <tr><td><img src="docs/screenshots/addons.png" alt="Add-ons"></td><td><img src="docs/screenshots/map.png" alt="Map"></td></tr>
 <tr><td><img src="docs/screenshots/new-server.png" alt="Create a server"></td><td><img src="docs/screenshots/tutorial.png" alt="Tutorial"></td></tr>
 <tr><td><img src="docs/screenshots/players.png" alt="Players"></td><td><img src="docs/screenshots/ai.png" alt="Ask AI"></td></tr>
