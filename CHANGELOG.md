@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.2.0
+- **Liquid Glass look**: the sidebar, selected-tab pill, buttons, popups, sheets and toasts are glass that bends what is behind it at the edges. Content cards are frosted, soft colours drift behind, pages slide in, and the tab pill stretches as it moves. Light and dark mode; turns solid when Windows transparency effects are off; still respects "reduce motion".
+- **Problems list** on Home: known trouble from the log (a plugin that failed to load, a port already in use, out of memory, lag, outdated server software, plugin errors) in plain words with how to fix it.
+- **World tab**: test a seed on a hidden throwaway world and see what is near spawn, make a new world (the old one is kept), and pre-generate land with Chunky with a progress bar.
+- **Events tab**: run commands at a time and on days you pick, with ready-made drop party, snowball fight and movie night events.
+- **Phone alerts** through the free ntfy app (no account): crashes, failed backups, players joining, server start and stop.
+- **Ranks tab**: LuckPerms ranks and permissions with switches instead of commands.
+- **Voice chat setup**: one button gives Simple Voice Chat its own playit.gg tunnel so friends anywhere can talk.
+- **Tray icon**: closing the window while a server runs hides BlockHost by the clock instead; click the icon to bring it back.
+- Fixed: a server dropping the control (RCON) connection no longer leaves a command waiting; it reconnects and retries once.
+
 ## 2.1.0
 - **Safer downloads**: Java, Vanilla, Purpur, Forge, NeoForge, Modrinth and CurseForge files are checked against their published checksums before they are kept. (Fabric publishes none for its generated launcher.)
 - **Locked-down window**: the app page is only served with a secret that changes on every launch and is kept in the user's own data folder. A strict Content-Security-Policy and security headers were added.

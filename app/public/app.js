@@ -12,7 +12,7 @@ async function api(path, body, method) {
   return j;
 }
 const post = (p, b) => api(p, b === undefined ? {} : b);
-function toast(msg, bad) { const t = document.createElement('div'); t.className = 'toast' + (bad ? ' bad' : ''); t.textContent = msg; $('#toasts').append(t); setTimeout(() => t.remove(), bad ? 7000 : 3200); }
+function toast(msg, bad) { const t = document.createElement('div'); t.className = 'toast' + (bad ? ' bad' : ''); t.textContent = msg; $('#toasts').append(t); setTimeout(() => { t.classList.add('out'); setTimeout(() => t.remove(), 300); }, bad ? 7000 : 3200); }
 const guard = (fn) => async (...a) => { try { return await fn(...a); } catch (e) { toast(e.message, true); } };
 
 // ---- icons (stroke style, like SF Symbols) ------------------------------------------
@@ -32,8 +32,9 @@ $('#i-help').innerHTML = ic('help'); $('#i-power').innerHTML = ic('power'); $('#
 for (const el of document.querySelectorAll('.side-foot .nav > span:first-child')) el.style.cssText = 'width:20px;height:20px;display:inline-flex;color:var(--accent)';
 
 // ---- sheets (replace alert/confirm/prompt) --------------------------------------------
-function sheet(html, wide) { const s = $('#sheet'); s.innerHTML = `<div class="sheet ${wide ? 'wide' : ''}">${html}</div>`; s.hidden = false; return s.firstChild; }
-const closeSheet = () => { $('#sheet').hidden = true; $('#sheet').innerHTML = ''; };
+let sheetGone = 0; // pending close animation; a new sheet opened meanwhile cancels it
+function sheet(html, wide) { clearTimeout(sheetGone); const s = $('#sheet'); s.classList.remove('out'); s.innerHTML = `<div class="sheet ${wide ? 'wide' : ''}">${html}</div>`; s.hidden = false; return s.firstChild; }
+const closeSheet = () => { const s = $('#sheet'); if (s.hidden) return; s.classList.add('out'); clearTimeout(sheetGone); sheetGone = setTimeout(() => { s.classList.remove('out'); s.hidden = true; s.innerHTML = ''; }, 200); };
 $('#sheet').addEventListener('mousedown', (e) => { if (e.target.id === 'sheet') closeSheet(); });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$('#sheet').hidden) closeSheet(); });
 function confirmSheet(title, body, ok = 'OK', danger = false) {
@@ -65,8 +66,8 @@ async function refresh(keepView) {
   S.cur = cur() ? cur().id : '';
   drawChrome(); if (!keepView) render();
 }
-const NAV = [['home', 'Home', 'home'], ['players', 'Players', 'users'], ['map', 'Map', 'map'], ['mods', 'Add-ons', 'puzzle'], ['backups', 'Backups', 'backup'], ['settings', 'Settings', 'gear']];
-const NAV2 = [['console', 'Live log', 'terminal'], ['chat', 'Chat', 'chat'], ['files', 'Files', 'folder'], ['ai', 'Ask AI', 'spark']];
+const NAV = [['home', 'Home', 'home'], ['players', 'Players', 'users'], ['map', 'Map', 'map'], ['world', 'World', 'globe'], ['mods', 'Add-ons', 'puzzle'], ['events', 'Events', 'calendar'], ['backups', 'Backups', 'backup'], ['settings', 'Settings', 'gear']];
+const NAV2 = [['console', 'Live log', 'terminal'], ['chat', 'Chat', 'chat'], ['ranks', 'Ranks', 'shield'], ['files', 'Files', 'folder'], ['ai', 'Ask AI', 'spark']]; // World, Events, Ranks: extras.js
 const statusText = (s) => ({ stopped: 'Stopped', starting: 'Starting… about 20 seconds', running: 'Running', stopping: 'Stopping…', installing: 'Setting up… the first time takes a few minutes', crashed: 'It crashed', error: 'Something went wrong' }[s.status] || s.status);
 function drawChrome() {
   const c = cur();
@@ -143,7 +144,8 @@ function noServer(el) {
 }
 function render() {
   view = { on: {} }; renderId++;
-  const el = $('#view'); el.innerHTML = ''; el.scrollTop = 0; el.style.animation = 'none'; void el.offsetWidth; el.style.animation = '';
+  const el = $('#view'); el.innerHTML = ''; el.scrollTop = 0;
+  el.classList.remove('enter'); void el.offsetWidth; el.classList.add('enter'); clearTimeout(el.enterT); el.enterT = setTimeout(() => el.classList.remove('enter'), 1400); // blocks rise in; live repaints later don't replay it
   if (!cur()) { noServer(el); return; }
   (V[S.tab] || V.home)(el, cur(), renderId);
 }

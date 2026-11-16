@@ -222,7 +222,10 @@ function send(id, text) {
   else if (r.pid) query(id, text).then((o) => o && o.split('\n').forEach((l) => log(id, l))).catch(() => {});
   else throw new Error('Server is not running.');
 }
-async function query(id, text) { return U.stripCodes(await (await rcon(id)).cmd(text)); }
+async function query(id, text) {
+  try { return U.stripCodes(await (await rcon(id)).cmd(text)); }
+  catch (e) { if (e.message !== 'rcon closed') throw e; return U.stripCodes(await (await rcon(id)).cmd(text)); } // the server dropped an idle socket: reconnect once
+}
 const chat = (id, msg) => send(id, 'tellraw @a ' + JSON.stringify({ text: `<Server> ${String(msg).replace(/[\r\n]+/g, ' ').slice(0, 256)}` }));
 
 async function remove(id, deleteFiles) {

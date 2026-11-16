@@ -14,7 +14,8 @@ const MIME = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.
 const sse = new Set();
 let lastClient = Date.now(), port = 0;
 const broadcast = (e) => { const s = `data: ${JSON.stringify(e)}\n\n`; for (const c of sse) c.write(s); };
-proc.init(broadcast);
+const extras = require('./lib/extras');
+proc.init((e) => { broadcast(e); extras.onEvent(e); }); // phone alerts listen to the same events as the windows
 
 const lanAddresses = () => Object.values(require('os').networkInterfaces()).flat().filter((i) => i && i.family === 'IPv4' && !i.internal && !i.address.startsWith('169.254.')).map((i) => i.address);
 const routes = [];
@@ -178,6 +179,7 @@ route('POST', '/api/servers/:id/ai', async (x) => {
 });
 
 require('./lib/playit').routes(route); // internet sharing via playit.gg
+extras.routes(route); // problems, events, alerts, new world, seed test, pre-generate, ranks, voice chat
 
 // ---- HTTP plumbing -------------------------------------------------------------
 function hostOk(h) { return /^(127\.0\.0\.1|localhost)(:\d+)?$/i.test(h || ''); }

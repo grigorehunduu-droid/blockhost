@@ -11,7 +11,7 @@ class Rcon {
       const timer = setTimeout(() => s.destroy(new Error('rcon connect timeout')), 5000);
       s.on('data', (d) => { this.buf = Buffer.concat([this.buf, d]); this._parse(); });
       s.on('error', (e) => { clearTimeout(timer); this.closed = true; reject(e); });
-      s.on('close', () => { this.closed = true; });
+      s.on('close', () => { this.closed = true; if (this.onClose) this.onClose(); }); // a dropped socket fails the waiting command now, not at its timeout
       s.once('connect', () => {
         this.h = (id, type) => {
           if (type !== 2) return;
@@ -36,14 +36,16 @@ class Rcon {
       if (this.h) this.h(id, type, body);
     }
   }
-  cmd(c) {
+  cmd(c, timeoutMs = 8000) { // slow commands (a far /locate) need a longer wait
     const run = () => new Promise((resolve, reject) => {
       if (this.closed) return reject(new Error('rcon closed'));
       const id = ++this.n, sid = ++this.n; let out = '';
-      const t = setTimeout(() => { this.h = null; reject(new Error('rcon timeout')); }, 8000);
+      const done = () => { clearTimeout(t); this.h = null; this.onClose = null; };
+      const t = setTimeout(() => { done(); reject(new Error('rcon timeout')); }, timeoutMs);
+      this.onClose = () => { done(); reject(new Error('rcon closed')); };
       this.h = (pid, type, body) => {
         if (pid === id) out += body;
-        else if (pid === sid) { clearTimeout(t); this.h = null; resolve(out); }
+        else if (pid === sid) { done(); resolve(out); }
       };
       this._w(id, 2, c); this._w(sid, 0, '');
     });

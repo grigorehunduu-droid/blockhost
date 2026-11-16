@@ -29,7 +29,11 @@ static class Launcher
     {
         bool created;
         Mutex mutex = new Mutex(true, "Local\\BlockHostApp", out created);
-        if (!created) { FocusExisting(); return 0; } // already open: bring it to the front
+        if (!created) // already open, maybe hidden by the clock: ask it to show itself, then bring it to the front
+        {
+            try { EventWaitHandle.OpenExisting(MainForm.ShowSignalName).Set(); } catch { }
+            FocusExisting(); return 0;
+        }
         int screen = 0;
         foreach (string a in args) { Match m = Regex.Match(a, "^--screen=(\\d+)$"); if (m.Success) screen = int.Parse(m.Groups[1].Value); }
         Application.EnableVisualStyles();
@@ -120,9 +124,13 @@ static class Launcher
 class MainForm : Form
 {
     [DllImport("dwmapi.dll")] static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int value, int size);
+    internal const string ShowSignalName = "Local\\BlockHostShow";
     readonly int screenIndex;
     WebView2 web;
     Label status;
+    // Closing the window while a server runs hides BlockHost by the clock instead, so the server is not left without a window.
+    readonly NotifyIcon tray = new NotifyIcon();
+    bool reallyClose;
 
     static bool SystemIsDark()
     {
@@ -149,6 +157,40 @@ class MainForm : Form
         Controls.Add(status);
         Shown += delegate { Boot(); };
         HandleCreated += delegate { int v = dark ? 1 : 0; DwmSetWindowAttribute(Handle, 20, ref v, 4); };
+
+        tray.Icon = Icon ?? SystemIcons.Application; tray.Text = "BlockHost";
+        tray.ContextMenu = new ContextMenu(new[] {
+            new MenuItem("Open BlockHost", delegate { ShowFromTray(); }),
+            new MenuItem("Quit BlockHost", delegate { ShowFromTray(); if (web != null && web.CoreWebView2 != null) web.CoreWebView2.ExecuteScriptAsync("actions.quit()"); })
+        });
+        tray.MouseClick += delegate (object s, MouseEventArgs e) { if (e.Button == MouseButtons.Left) ShowFromTray(); };
+        tray.BalloonTipClicked += delegate { ShowFromTray(); };
+        FormClosing += OnClosing;
+        FormClosed += delegate { tray.Visible = false; tray.Dispose(); };
+        // a second launch of BlockHost.exe signals this one to come back
+        EventWaitHandle signal = new EventWaitHandle(false, EventResetMode.AutoReset, ShowSignalName);
+        Thread waiter = new Thread(delegate () { while (signal.WaitOne()) { try { BeginInvoke((MethodInvoker)ShowFromTray); } catch { return; } } });
+        waiter.IsBackground = true; waiter.Start();
+    }
+
+    void ShowFromTray()
+    {
+        Show(); if (WindowState == FormWindowState.Minimized) WindowState = FormWindowState.Normal;
+        Activate(); tray.Visible = false;
+    }
+
+    async void OnClosing(object sender, FormClosingEventArgs e)
+    {
+        if (reallyClose || e.CloseReason != CloseReason.UserClosing || web == null || web.CoreWebView2 == null) return;
+        e.Cancel = true; // decide after asking the page whether a server is running
+        string busy = "false";
+        try { busy = await web.CoreWebView2.ExecuteScriptAsync("typeof S !== 'undefined' && S.servers.some(function (s) { return ['running', 'starting', 'stopping', 'installing'].indexOf(s.status) >= 0; })"); } catch { }
+        if (busy == "true")
+        {
+            Hide(); tray.Visible = true;
+            tray.ShowBalloonTip(5000, "BlockHost is still running", "Your server keeps going. Click the BlockHost icon by the clock to open it again.", ToolTipIcon.Info);
+        }
+        else { reallyClose = true; Close(); }
     }
 
     async void Boot()
@@ -173,7 +215,7 @@ class MainForm : Form
                 Uri u; if (Uri.TryCreate(e.Uri, UriKind.Absolute, out u) && u.Host != "127.0.0.1") { e.Cancel = true; OpenExternal(e.Uri); }
             };
             core.NewWindowRequested += delegate (object s, CoreWebView2NewWindowRequestedEventArgs e) { e.Handled = true; OpenExternal(e.Uri); };
-            core.WindowCloseRequested += delegate { Close(); };
+            core.WindowCloseRequested += delegate { reallyClose = true; Close(); }; // the page asked (Quit): really close
             core.NavigationCompleted += delegate { status.Visible = false; };
             Controls.Add(web); web.BringToFront();
             core.Navigate(url);

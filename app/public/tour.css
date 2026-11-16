@@ -1,6 +1,6 @@
 /* Animated tutorial. Every scene is pure CSS keyframes on a fixed 560x280 stage. */
-#tour{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;animation:fade .2s}
-.tcard{background:var(--surface);border-radius:26px;width:min(94vw,640px);padding:22px 22px 20px;box-shadow:0 30px 90px rgba(0,0,0,.4);animation:pop .22s ease-out}
+#tour{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;animation:dimin .3s var(--ease)}
+.tcard{background:var(--glass-strong);border-radius:30px;width:min(94vw,640px);padding:22px 22px 20px;box-shadow:var(--rim),0 30px 90px rgba(0,0,0,.35);animation:morph .55s var(--spring)}
 .tstage{position:relative;width:560px;height:280px;max-width:100%;margin:0 auto;background:linear-gradient(160deg,var(--surface2),var(--bg));border-radius:20px;overflow:hidden;transform-origin:top center}
 .tcard h2{font-size:24px;letter-spacing:-.02em;margin:18px 4px 4px;text-align:center}.tcard p.t{color:var(--text2);text-align:center;margin:0 18px 14px;min-height:44px}
 .tdots{display:flex;gap:7px;justify-content:center;margin-bottom:14px}.tdots i{width:8px;height:8px;border-radius:50%;background:var(--surface2);transition:.25s}.tdots i.on{background:var(--accent);width:22px;border-radius:4px}

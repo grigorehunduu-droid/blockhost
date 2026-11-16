@@ -107,4 +107,17 @@ function routes(route) {
 // Resume sharing after the app restarts if it was on.
 if (U.settings.playit && U.settings.playit.enabled) startAgent();
 
-module.exports = { routes, addressFor };
+// Voice chat mods talk over UDP on their own port, so they need a second tunnel. playit has no plain-UDP game
+// type, so the Bedrock type (UDP) carries it; the address always includes the port.
+async function udpTunnel(port, name) {
+  if (!secret()) throw Object.assign(new Error('Set up internet sharing on the Home page first.'), { status: 400 });
+  if (!child) throw Object.assign(new Error('Turn on internet sharing on the Home page first.'), { status: 400 });
+  let rd = await runData(true);
+  if (!addressFor(rd.tunnels, port)) {
+    await call('/tunnels/create', { name: String(name).slice(0, 40), tunnel_type: 'minecraft-bedrock', port_type: 'udp', port_count: 1, origin: { type: 'agent', data: { agent_id: rd.agent_id, local_ip: '127.0.0.1', local_port: port } }, enabled: true, alloc: null, firewall_id: null, proxy_protocol: null }, secret());
+  }
+  for (let i = 0; i < 20; i++) { rd = await runData(true); const a = addressFor(rd.tunnels, port); if (a && !/^null|undefined/.test(a.withPort)) return a; await U.sleep(1500); }
+  throw Object.assign(new Error('playit has not given the voice tunnel an address yet. Try again in a minute.'), { status: 504 });
+}
+
+module.exports = { routes, addressFor, udpTunnel, linked: () => !!secret(), running: () => !!child };
